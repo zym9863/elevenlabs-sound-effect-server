@@ -9,6 +9,7 @@ import {
 import axios from 'axios';
 import fs from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
 
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
 
@@ -71,7 +72,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         }
       );
 
-      const outputDir = path.join(process.cwd(), 'sounds');
+      const outputDir = path.join(os.tmpdir(), 'sounds'); 
       if (!fs.existsSync(outputDir)) {
         fs.mkdirSync(outputDir, { recursive: true });
       }
@@ -84,7 +85,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         content: [
           {
             type: "text",
-            text: `Sound effect generated successfully and saved to ${filename}`,
+            text: `Sound effect generated successfully and saved to ${filepath}`,
           },
         ],
       };
